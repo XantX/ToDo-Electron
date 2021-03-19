@@ -1,6 +1,5 @@
 const { getConnection } = require("../database");
-const { Notification } = require("electron");
-
+const { Notification } = require('electron')
 async function getToDoList() {
   const conn = await getConnection();
   const result = await conn.query("SELECT * FROM ToDoList");
@@ -13,9 +12,10 @@ async function createToDo(ToDo) {
     await conn.query("INSERT INTO ToDoList SET ?", ToDo);
 
     new Notification({
-      title: "Save ToDo",
-      body: "New ToDo saved Succelfully",
-    }).show();
+      title:'Saved ToDo',
+      icon:"../to-do-list.ico",
+      body: "New ToDo saved Successfully"
+    }).show()
 
   } catch (error) {
     console.log(error);
