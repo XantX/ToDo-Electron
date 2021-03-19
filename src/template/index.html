@@ -9,15 +9,23 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
     />
     <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
   </head>
   <body>
-    <div class="titleBar grey darken-3 row center-align" id="titleBar">
+    <div
+      id="titleBar"
+      class="titleBar grey darken-3 row center-align"
+      id="titleBar"
+    >
       <div class="col s9 title left-align">TodoList</div>
       <div class="col s1 right option" id="close-btn">X</div>
       <div class="col s1 right option" id="max-btn">▢</div>
       <div class="col s1 right option" id="min-btn">-</div>
     </div>
-
+    <!--aqui-->
     <div class="row mainMenu">
       <div id="sidebar" class="hide col s4 menuAddToDo z-depth-4">
         <div class="row">
@@ -27,23 +35,24 @@
         </div>
         <div class="row">
           <h2 class="center-align white-text">Add To Do</h2>
-          <form class=" formulario">
-
+          <form id="toDoForm" class="formulario">
             <input
               type="text"
               name="Title"
               id="title"
               placeholder="Title ToDo"
+              required
             />
 
             <textarea
               id="description"
               placeholder="Description ToDo"
               rows="4"
+              required
             ></textarea>
 
             <h4 class="center-align white-text">Priority</h4>
-            <div class="container ">
+            <div class="container">
               <p>
                 <label>
                   <input
@@ -51,7 +60,6 @@
                     name="group1"
                     id="priority"
                     value="High"
-                    
                   />
                   <span class="High-Priority">High</span>
                 </label>
@@ -69,27 +77,39 @@
               </p>
               <p>
                 <label>
-                  <input type="radio" name="group1" id="priority" value="Low" />
+                  <input
+                    type="radio"
+                    name="group1"
+                    id="priority"
+                    value="Low"
+                    required
+                  />
                   <span class="Low-Priority">Low</span>
                 </label>
               </p>
               <div class="center-align">
-                <button class="btn btn-large">Add</button>
+                <button
+                  type="submit"
+                  class="btn btn-large waves-effect waves-light"
+                >
+                  Add
+                </button>
               </div>
             </div>
           </form>
         </div>
       </div>
 
-      <div id="main" class="col s12 mainToDo center-align">
-        <div class="row">
-          <div class="buttonShow left" onclick="showSideBar()">
+      <div id="main" class="col s12 mainToDo">
+        <div class="row sticky">
+          <div class="buttonShow left red" onclick="showSideBar()">
             <img src="img/menu.png" alt="" />
           </div>
         </div>
-        <div class="row mainListToDo">Hola</div>
+        <div class="row mainListToDo center-align" id="mainListToDo"></div>
       </div>
     </div>
+    <!--aqui end-->
     <script src="app.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   </body>
