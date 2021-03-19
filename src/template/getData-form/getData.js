@@ -5,7 +5,8 @@ const PriorityToDoForm = document.getElementsByName("group1");
 
 const { remote } = require("electron");
 const window = remote.require("./database-functions/data-functions");
-const { hideSideBar } = require("../app");
+const { showToDoList, hideSideBar } = require("../app");
+let ToDoList = [];
 
 ToDoForm.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -26,53 +27,28 @@ ToDoForm.addEventListener("submit", async (e) => {
   titleTodoForm.focus();
   hideSideBar();
   await window.createToDo(newToDo);
-  showToDoList();
+  getToDoList();
 });
 
-let ToDoList = [];
 const getToDoList = async () => {
   ToDoList = await window.getToDoList();
-  return ToDoList;
+  showToDoList(ToDoList);
 };
 
-const ToDoListRender = document.getElementById("mainListToDo");
-
-const prioritySelectColor = (ToDoPrio) => {
-  if (ToDoPrio === "High") {
-    return "white-text red";
-  } else if (ToDoPrio === "Medium") {
-    return "white-text orange";
-  } else {
-    return "black-text yellow";
-  }
-};
-
-const showToDoList = async () => {
-  ToDoListRender.innerHTML = "";
+async function init() {
   await getToDoList();
-  ToDoList.forEach((ToDo) => {
-    ToDoListRender.innerHTML += `
-    <div class="container">
-      <div class="card blue-grey darken-1 animate__animated animate__fadeInRight">
-          <div class="card-content white-text">
-            <span class="card-title">${ToDo.title}</span>
-            <p>${ToDo.description}</p>
-            <div class="priority ${prioritySelectColor(ToDo.priority)}">
-              <span class="">${ToDo.priority}</span>
-            </div>
-          </div>
-        <div class="card-action">
-          <button class="btn ">Delete</button>
-          <button class="btn ">Edit</button>
-        </div>
-      </div>
-    </div>
-    
-    `;
-  });
-};
+}
 
-showToDoList();
+init();
+async function deleteById(id) {
+  const response = confirm("Are you sure you want delete it ");
+  if (response) {
+    window.deleteToDo(id);
+    await getToDoList();
+  }
+  return;
+}
 module.exports = {
   getToDoList,
+  deleteById,
 };
