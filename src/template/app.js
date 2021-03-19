@@ -1,4 +1,4 @@
-const { deleteById } = require("./getData-form/getData");
+const { editToDo, deleteById } = require("./getData-form/getData");
 
 require("./electron-functions/functions");
 require("./getData-form/getData");
@@ -51,7 +51,7 @@ const showToDoList = (ToDoList) => {
           </div>
         <div class="card-action">
           <button class="btn " onclick="deleteById(${ToDo.ID})">Delete</button>
-          <button class="btn ">Edit</button>
+          <button class="btn " onclick="editToDo(${ToDo.ID})">Edit</button>
         </div>
       </div>
     </div>

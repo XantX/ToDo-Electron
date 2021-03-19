@@ -5,9 +5,9 @@ const PriorityToDoForm = document.getElementsByName("group1");
 
 const { remote } = require("electron");
 const window = remote.require("./database-functions/data-functions");
-const { showToDoList, hideSideBar } = require("../app");
+const { showToDoList, hideSideBar, showSideBar } = require("../app");
 let ToDoList = [];
-
+let EditingEstatus = false;
 ToDoForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -23,10 +23,17 @@ ToDoForm.addEventListener("submit", async (e) => {
     description: descriptionToDoForm.value,
     priority: priorityTodo,
   };
+
   ToDoForm.reset();
   titleTodoForm.focus();
+
   hideSideBar();
-  await window.createToDo(newToDo);
+  if (!EditingEstatus) {
+    await window.createToDo(newToDo);
+  } else {
+    console.log("Editando");
+  }
+
   getToDoList();
 });
 
@@ -48,7 +55,15 @@ async function deleteById(id) {
   }
   return;
 }
+async function editToDo(id) {
+  const ToDo = await window.editToDo(id);
+  showSideBar();
+  titleTodoForm.value = ToDo.title;
+  descriptionToDoForm.value = ToDo.description;
+  EditingEstatus = true;
+}
 module.exports = {
   getToDoList,
   deleteById,
+  editToDo,
 };

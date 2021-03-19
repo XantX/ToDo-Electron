@@ -1,5 +1,6 @@
 const { getConnection } = require("../database");
 const { Notification } = require("electron");
+
 async function getToDoList() {
   const conn = await getConnection();
   const result = await conn.query("SELECT * FROM ToDoList");
@@ -20,12 +21,19 @@ async function createToDo(ToDo) {
     console.log(error);
   }
 }
+
 async function deleteToDo(id) {
   const conn = await getConnection();
   const result = await conn.query("DELETE FROM ToDoList WHERE ID = ?", id);
+}
+async function editToDo(id) {
+  const conn = await getConnection();
+  const result = await conn.query("SELECT * FROM ToDoList WHERE ID = ?", id);
+  return result[0];
 }
 module.exports = {
   createToDo,
   getToDoList,
   deleteToDo,
+  editToDo,
 };
