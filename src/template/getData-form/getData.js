@@ -30,10 +30,8 @@ ToDoForm.addEventListener("submit", async (e) => {
   };
 
   if (!EditingEstatus) {
-    console.log("añadiendo");
     await window.createToDo(newToDo);
   } else {
-    console.log("Editando");
     await window.updateToDo(editToDoId,newToDo);
     if (EditingEstatus) changesStateEdit(false);
   }
@@ -75,11 +73,9 @@ async function editToDo(id) {
 }
 
 function changesStateEdit (status){
-  console.log("Entry",EditingEstatus, editToDoId);
   const newEditingEstatus = status;
   EditingEstatus = newEditingEstatus;
   if(!status) editToDoId = "";
-  console.log("Exit",EditingEstatus, editToDoId);
 }
 async function init() {
   await getToDoList();

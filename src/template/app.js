@@ -52,7 +52,7 @@ const showToDoList = (ToDoList) => {
   ToDoList.forEach((ToDo) => {
     ToDoListRender.innerHTML += `
     <div class="container">
-      <div class="card blue-grey darken-1 animate__animated animate__fadeInRight">
+      <div class="card blue-grey darken-1 animate__animated animate__fadeInRight z-depth-4">
           <div class="card-content white-text">
             <span class="card-title">${ToDo.title}</span>
             <p>${ToDo.description}</p>
