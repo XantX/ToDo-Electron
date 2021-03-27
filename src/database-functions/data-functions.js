@@ -26,14 +26,20 @@ async function deleteToDo(id) {
   const conn = await getConnection();
   const result = await conn.query("DELETE FROM ToDoList WHERE ID = ?", id);
 }
-async function editToDo(id) {
+async function getToDo(id) {
   const conn = await getConnection();
   const result = await conn.query("SELECT * FROM ToDoList WHERE ID = ?", id);
   return result[0];
+}
+async function updateToDo(id, ToDo){
+  const conn = await getConnection();
+  const result = await conn.query("UPDATE ToDoList SET ? WHERE id = ?",[ToDo,id]);
+  
 }
 module.exports = {
   createToDo,
   getToDoList,
   deleteToDo,
-  editToDo,
+  getToDo,
+  updateToDo,
 };

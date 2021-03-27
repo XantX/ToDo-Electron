@@ -2,12 +2,17 @@ const ToDoForm = document.getElementById("toDoForm");
 const titleTodoForm = document.getElementById("title");
 const descriptionToDoForm = document.getElementById("description");
 const PriorityToDoForm = document.getElementsByName("group1");
-
+const FormTitle = document.getElementById("FormTitle")
 const { remote } = require("electron");
 const window = remote.require("./database-functions/data-functions");
+
 const { showToDoList, hideSideBar, showSideBar } = require("../app");
+
 let ToDoList = [];
+
 let EditingEstatus = false;
+let editToDoId = "";
+
 ToDoForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -24,16 +29,17 @@ ToDoForm.addEventListener("submit", async (e) => {
     priority: priorityTodo,
   };
 
-  ToDoForm.reset();
-  titleTodoForm.focus();
-
-  hideSideBar();
   if (!EditingEstatus) {
+    console.log("añadiendo");
     await window.createToDo(newToDo);
   } else {
     console.log("Editando");
+    await window.updateToDo(editToDoId,newToDo);
+    if (EditingEstatus) changesStateEdit(false);
   }
-
+  hideSideBar();
+  ToDoForm.reset();
+  titleTodoForm.focus();
   getToDoList();
 });
 
@@ -42,11 +48,6 @@ const getToDoList = async () => {
   showToDoList(ToDoList);
 };
 
-async function init() {
-  await getToDoList();
-}
-
-init();
 async function deleteById(id) {
   const response = confirm("Are you sure you want delete it ");
   if (response) {
@@ -55,14 +56,38 @@ async function deleteById(id) {
   }
   return;
 }
+
 async function editToDo(id) {
-  const ToDo = await window.editToDo(id);
+  const ToDoEdit = await window.getToDo(id);
+  FormTitle.innerHTML = "Edit ToDo";
   showSideBar();
-  titleTodoForm.value = ToDo.title;
-  descriptionToDoForm.value = ToDo.description;
-  EditingEstatus = true;
+  titleTodoForm.value = ToDoEdit.title;
+  descriptionToDoForm.value = ToDoEdit.description;
+
+  for (priorityToDo of PriorityToDoForm) {
+    if (ToDoEdit.priority == priorityToDo.value) {
+      priorityToDo.checked = true;
+    }
+  }
+  editToDoId = ToDoEdit.ID;
+  changesStateEdit(true);
+  //EditingEstatus = true;
 }
+
+function changesStateEdit (status){
+  console.log("Entry",EditingEstatus, editToDoId);
+  const newEditingEstatus = status;
+  EditingEstatus = newEditingEstatus;
+  if(!status) editToDoId = "";
+  console.log("Exit",EditingEstatus, editToDoId);
+}
+async function init() {
+  await getToDoList();
+}
+
+init();
 module.exports = {
+  changesStateEdit,
   getToDoList,
   deleteById,
   editToDo,

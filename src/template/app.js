@@ -1,8 +1,10 @@
-const { editToDo, deleteById } = require("./getData-form/getData");
+const {
+  editToDo,
+  deleteById
+} = require("./getData-form/getData");
 
 require("./electron-functions/functions");
 require("./getData-form/getData");
-
 
 function hideSideBar() {
   const sidebar = document.getElementById("sidebar");
@@ -12,7 +14,15 @@ function hideSideBar() {
   const mainTodo = document.getElementById("main");
   mainTodo.classList.remove("s8");
   mainTodo.classList.add("s12");
+
+  const ToDoForm = document.getElementById("toDoForm");
+  const FormTitle = document.getElementById("FormTitle");
+  FormTitle.innerHTML = "Add ToDo";
+  ToDoForm.reset();
+  const { changesStateEdit }= require("./getData-form/getData");
+  changesStateEdit(false);
 }
+
 function showSideBar() {
   const sidebar = document.getElementById("sidebar");
   sidebar.classList.remove("hide");
@@ -22,6 +32,7 @@ function showSideBar() {
   const mainTodo = document.getElementById("main");
   mainTodo.classList.remove("s12");
   mainTodo.classList.add("s8");
+
 }
 
 const ToDoListRender = document.getElementById("mainListToDo");
